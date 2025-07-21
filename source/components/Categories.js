@@ -5,13 +5,13 @@ export function Categories ({handleChange}) {
 
     const categories = [
         'Todas',
+        'Café',
         'Almoço',
-        'Lanche',
         'Jantar'
     ]
 
     const [selected, setSelected] = useState(false)
-    const [choose, setChoose] = useState()
+    const [choose, setChoose] = useState(0)
 
     const HandlePress = (index, item) => {
 

@@ -13,10 +13,10 @@ export function SearchBar ({handleChange}) {
         <View style={styles.container} >
             <Icon name="search" size={25} color='gray' />
             <TextInput
-                placeholder='buscar receitas...'
+                placeholder='buscar pratos...'
                 style={[styles.input]}
                 underlineColorAndroid="transparent"
-                onChange={changeText}
+                onChangeText={text => { if (handleChange) handleChange(text) }}
             />
         </View>
     )

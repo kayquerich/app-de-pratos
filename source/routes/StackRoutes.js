@@ -5,6 +5,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Platform } from "react-native";
 import TabRoutes from "./TabRoutes";
 import Header from "../components/Header";
+import Details from "../screens/Details";
 const Stack = createStackNavigator();
 
 export default function StackRoutes() {
@@ -18,6 +19,7 @@ export default function StackRoutes() {
                 <NavigationContainer>
                     <Stack.Navigator screenOptions={{headerShown: false}}>
                         <Stack.Screen name="TabRoutes" component={TabRoutes} />
+                        <Stack.Screen name='details' component={Details} />
                     </Stack.Navigator>
                 </NavigationContainer>
 
