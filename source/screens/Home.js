@@ -28,7 +28,6 @@ export default function Home() {
     }, [])
 
     const categoryChange = (category) => {
-        console.log(category)
         const produtosFiltrados = db.recipes.filter(produto => category === 'todas' || produto.categoria.toLowerCase() === category)
         setProdutos(produtosFiltrados)
     }

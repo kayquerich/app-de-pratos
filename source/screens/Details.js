@@ -11,9 +11,11 @@ export default function Details() {
     const { id } = route.params || {};
     const [produto, setProduto] = useState({});
     const [precoAtual, setPrecoAtual] = useState(produto.preco || 0)
+    const [sacola, setSacola] = useState([])
 
     useEffect(() => {
         const fetchProducts = async () => {
+
             const savedProducts = await AsyncStorage.getItem('produtos')
             if (savedProducts) {
 
@@ -25,6 +27,10 @@ export default function Details() {
             } else {
                 console.log("produtos não encontrados")
             }
+
+            const savedBag = await AsyncStorage.getItem('sacola')
+            if (savedBag) setSacola(JSON.parse(savedBag));
+
         }
         fetchProducts()
     }, [])
@@ -43,6 +49,45 @@ export default function Details() {
                 setQuantidade(1)
             }
         }
+    }
+
+    const addToBag = async () => {
+        
+        const index = sacola.findIndex(item => item.produto.id === produto.id)
+
+        let novaSacola = []
+        if (index !== -1) {
+
+            novaSacola = sacola.map((item, key) => {
+                if (key === index) {
+                    const newQtd = item.quantidade + quantidade
+                    return {
+                        ...item,
+                        quantidade : newQtd,
+                        preco : produto.preco * newQtd
+                    }
+                }
+                return item
+            })
+
+        } else {
+
+            const productOnBag = {
+                id : sacola.length,
+                produto : produto,
+                preco : precoAtual,
+                quantidade : quantidade
+            }
+
+            novaSacola = [...sacola, productOnBag]
+
+        }
+
+        setSacola(novaSacola)
+        await AsyncStorage.setItem('sacola', JSON.stringify(novaSacola))
+
+        navigation.navigate('TabRoutes')
+
     }
 
     return (
@@ -68,7 +113,7 @@ export default function Details() {
                     <Text style={{color : 'red', fontSize : 30, marginTop : -6}} >+</Text>
                 </TouchableOpacity>
 
-                <Pressable style={styles.addButton} >
+                <Pressable style={styles.addButton} onPress={addToBag} >
                     <Text style={{color : 'white'}} >Adicionar</Text>
                     <Text style={{color : 'white'}} >{precoAtual.toFixed(2).replace('.', ',')}R$</Text>
                 </Pressable>
