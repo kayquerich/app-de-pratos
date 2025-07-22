@@ -6,7 +6,7 @@ export function CartProduct ({dados, handlePress}) {
     const [produto, setProduto] = useState(dados && dados.produto)
 
     return (
-        <Pressable style={styles.container} >
+        <View style={styles.container} >
             <Image
                 style={styles.image}
                 source={produto.imagem}
@@ -23,10 +23,12 @@ export function CartProduct ({dados, handlePress}) {
                 <Text>{produto.categoria}</Text>
                 <Text>{dados.preco && dados.preco.toFixed(2).replace('.', ',')}</Text>
             </View>
-            <TouchableOpacity style={styles.removerButton} onPress={() => {if(handlePress) handlePress();}} >
-                <Text style={{color : 'red'}} >remover</Text>
-            </TouchableOpacity>
-        </Pressable>
+            {handlePress && (
+                <TouchableOpacity style={styles.removerButton} onPress={() => handlePress()} >
+                    <Text style={{color : 'red'}} >remover</Text>
+                </TouchableOpacity>
+            )}
+        </View>
     )
 }
 

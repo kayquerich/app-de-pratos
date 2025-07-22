@@ -59,6 +59,29 @@ export default function Cart() {
 
     }
 
+    const finalizarPedido = async () => {
+
+        let pedidos = await AsyncStorage.getItem('pedidos') || '[]'
+        pedidos = JSON.parse(pedidos)
+
+        const numero = Math.floor(1000 + Math.random() * 9000);
+    
+        const pedido = {
+            id : 'Pedido#' + numero, 
+            sacola : sacola,
+            valorTotal : valorAtual + 0.99 + 6.00,
+            endereco : endereco,
+            recebido : false,
+        }
+
+        pedidos.push(pedido)
+        await AsyncStorage.setItem('pedidos', JSON.stringify(pedidos))
+        await AsyncStorage.setItem('sacola', JSON.stringify([]))
+        setSacola([])
+        setValorAtual(0)
+        navigation.navigate('Pedidos')
+    }
+
     return (
         <GestureDetector gesture={panGesture} >
             <View style={styles.page} >
@@ -67,7 +90,7 @@ export default function Cart() {
                         <Text style={styles.title} >Sacola</Text>
                         {sacola.length === 0 ? (
                             <View style={styles.emptyPage}>
-                                <Text>Ainda não há produtos por aqui</Text>
+                                <Text style={{marginVertical : '50%'}} >Ainda não há produtos por aqui</Text>
                             </View>
                         ) : (
                             <View style={{position : 'relative', flex : 1}} >
@@ -76,7 +99,7 @@ export default function Cart() {
                                 ))}
                                 <Text style={styles.title} >Resumo de pedido</Text>
                                 <View style={{gap : 10}} >
-                                    <Text>valor atual : {valorAtual.toFixed(2).replace('.', ',')}</Text>
+                                    <Text>Valor atual : {valorAtual.toFixed(2).replace('.', ',')}</Text>
                                     <Text>Taxa de entrega : 6,00</Text>
                                     <Text>Taxa de serviço : 0,99</Text>
                                     <Text>Local da entrega : {endereco}</Text>
@@ -89,7 +112,7 @@ export default function Cart() {
                                 <View style={styles.pagamento} >
                                     <Text style={{fontSize : 16}}>Pagamento na entrega - <Icon name='money-bill' size={20} color='green'/> Dinheiro </Text>
                                 </View>
-                                <Pressable style={styles.finalizar} >
+                                <Pressable style={styles.finalizar} onPress={finalizarPedido} >
                                     <Text style={{
                                         color : 'white',
                                         fontSize : 14,
