@@ -18,7 +18,6 @@ export default function Pedido () {
             const saved_pedidos = JSON.parse(await AsyncStorage.getItem('pedidos')) || []
             const getPedido = saved_pedidos.filter(pedido => pedido.id === id)[0]
             setPedido(getPedido)
-            console.log(getPedido)
         }
         fetchPedido()
 
@@ -39,7 +38,9 @@ export default function Pedido () {
     }
 
     const navigation = useNavigation()
-    const goBack = () => navigation.goBack()
+    const goBack = () => navigation.navigate('TabRoutes', {
+        screen : 'Pedidos'
+    })
 
     return (
         <View style={styles.page} >

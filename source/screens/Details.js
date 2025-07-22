@@ -86,7 +86,9 @@ export default function Details() {
         setSacola(novaSacola)
         await AsyncStorage.setItem('sacola', JSON.stringify(novaSacola))
 
-        navigation.navigate('TabRoutes')
+        navigation.navigate('TabRoutes', {
+            screen : 'Sacola'
+        })
 
     }
 
